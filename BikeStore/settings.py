@@ -27,8 +27,9 @@ DEBUG = True
 
 
 CSRF_TRUSTED_ORIGINS = [
-    "bikestore-production.up.railway.app",
+    "https://bikestore-production.up.railway.app",
 ]
+
 
 
 
