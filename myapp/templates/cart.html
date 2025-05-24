@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cart | The BikeStore</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+    .container {
+      display: flex;
+      padding: 40px;
+    }
+    .left, .right {
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+    }
+    .left {
+      flex: 2;
+    }
+    .right {
+      flex: 1;
+      margin-left: 20px;
+      border: 1px solid #eee;
+      padding: 30px;
+    }
+    .cart-item {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #eee;
+      padding: 20px 0;
+    }
+    .cart-item img {
+      width: 120px;
+      height: auto;
+      margin-right: 20px;
+      border-radius: 8px;
+    }
+    .cart-item-details {
+      flex: 1;
+    }
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+    }
+    .quantity-controls form {
+      margin: 0 5px;
+    }
+    .remove-btn {
+      margin-top: 10px;
+    }
+    .subtotal {
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 20px;
+      margin-top: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      text-align: center;
+      text-decoration: none;
+    }
+    .btn:hover {
+      background-color: #0056b3;
+    }
+    .btn-outline {
+      background-color: white;
+      color: #007bff;
+      border: 1px solid #007bff;
+    }
+  </style>
+</head>
+<body>
+  <header style="padding: 20px;">
+    <img src="/static/logo.png" alt="Logo" height="40">
+  </header>
+  <div class="container">
+    <div class="left">
+      <h2>Items</h2>
+      {% for item in items %}
+      <div class="cart-item">
+        <img src="{{ item.bike.image.url }}" alt="{{ item.bike.name }}">
+        <div class="cart-item-details">
+          <p><strong>{{ item.bike.name }}</strong></p>
+          <p>Price: <strong>Rs.{{ item.bike.price|floatformat:2 }}</strong></p>
+          <div class="quantity-controls">
+            <form method="post" action="{% url 'decrease_quantity' item.id %}">
+              {% csrf_token %}
+              <button type="submit">-</button>
+            </form>
+            <span>{{ item.quantity }}</span>
+            <form method="post" action="{% url 'increase_quantity' item.id %}">
+              {% csrf_token %}
+              <button type="submit">+</button>
+            </form>
+          </div>
+          <p>Amount: Rs.{{ item.total_price|floatformat:2 }}</p>
+          <form method="post" action="{% url 'remove_item' item.id %}" class="remove-btn">
+            {% csrf_token %}
+            <button type="submit">Remove</button>
+          </form>
+        </div>
+      </div>
+      {% empty %}
+        <p>Your cart is empty.</p>
+      {% endfor %}
+    </div>
+    <div class="right">
+      <div class="subtotal">
+        <strong>Subtotal ({{ items|length }} Item{{ items|pluralize }})</strong><br>
+        Rs.{{ total|floatformat:2 }}
+      </div>
+      <p>Shipping and taxes will be calculated at checkout.</p>
+      <a href="{% url 'checkout' %}" class="btn">Checkout</a><br><br>
+      <a href="{% url 'home' %}" class="btn btn-outline">Continue Shopping</a>
+    </div>
+  </div>
+</body>
+</html>
+
+
+

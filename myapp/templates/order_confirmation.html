@@ -1,0 +1,91 @@
+<!-- templates/order_confirmation.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order Confirmation</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+        .confirmation-container {
+            max-width: 700px;
+            margin: 50px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .confirmation-container h2 {
+            color: #28a745;
+            margin-bottom: 10px;
+        }
+        .order-details {
+            margin-top: 20px;
+        }
+        .order-details h3 {
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 5px;
+        }
+        .order-item {
+            padding: 10px 0;
+            border-bottom: 1px dashed #ccc;
+        }
+        .order-item:last-child {
+            border-bottom: none;
+        }
+        .summary {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        .back-home {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+        .back-home:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<div class="confirmation-container">
+    <h2>🎉 Order Confirmed!</h2>
+    <p>Thank you, {{ order.user.first_name }}! Your order #{{ order.id }} has been placed successfully.</p>
+
+    <div class="order-details">
+        <h3>Order Summary</h3>
+        {% for item in items %}
+        <div class="order-item">
+            <p><strong>{{ item.bike.name }}</strong></p>
+            <p>Quantity: {{ item.quantity }}</p>
+            <p>Price: ₹{{ item.price|floatformat:2 }}</p>
+            <p>Total: ₹{{ item.total_price|floatformat:2 }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <div class="summary">
+        <p><strong>Shipping Address:</strong><br>
+           {{ order.shipping_address.full_name }}<br>
+           {{ order.shipping_address.address }}<br>
+           {{ order.shipping_address.city }}, {{ order.shipping_address.state }} - {{ order.shipping_address.zip_code }}<br>
+           Phone: {{ order.shipping_address.phone }}
+        </p>
+        <p><strong>Order Total: ₹{{ order.subtotal|floatformat:2 }}</strong></p>
+        <p>Status: {{ order.status }}</p>
+    </div>
+
+    <a href="{% url 'home' %}" class="back-home">🏠 Return to Home</a>
+</div>
+</body>
+</html>
+
+

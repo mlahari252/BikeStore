@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;}
+/* Product Grid */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    padding: 0 20px;
+}
+
+/* Product Card */
+.product-card {
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    padding: 20px;
+    text-align: left;
+    transition: transform 0.3s;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Product Image */
+.product-image {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 15px;
+}
+
+/* Button */
+.btn {
+    display: inline-block;
+    margin-top: 10px;
+    background-color: #ffcc00;
+    color: #000;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s;
+}
+
+.btn:hover {
+    background-color: #e6b800;
+}
+
+    </style>
+</head>
+<body>
+    {% include 'home.html' %}
+    <section>
+        <div class="product-grid">
+        {% for product in products %}
+        <div class="product-card">
+           <img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image">
+            <h2>{{ product.name }}</h2>
+            <p>{{ product.description|truncatewords:20 }}</p>
+            <p><strong>Price:</strong> Rs.{{ product.price }}</p>
+          <a href="{% url 'add_to_cart' product.id %}">Add to Cart</a>
+
+
+        </div>
+        {% endfor %}
+    </div>
+    </section>
+</body>
+</html>
