@@ -25,7 +25,14 @@ SECRET_KEY = 'django-insecure-p^tbgdo6g-k9l*ebxo21hs!x=-@en71p^45oe7_6f)-rcka#8=
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+
+CSRF_TRUSTED_ORIGINS = [
+    "bikestore-production.up.railway.app",
+]
+
+
+
+ALLOWED_HOSTS = ['bikestore-production.up.railway.app']
 
 
 # Application definition
